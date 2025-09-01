@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "DiscountCode_App";
+
+package discount;
+
+// gRPC Service
+service DiscountService {
+  rpc Generate (GenerateRequest) returns (GenerateResponse);
+  rpc UseCode (UseCodeRequest) returns (UseCodeResponse);
+
+}
+
+// Generate request format
+message GenerateRequest {
+  uint32 count = 1;   // ushort (max 65535, but we will validate 1–2000)
+  uint32 length = 2;  // byte   (valid values: 7 or 8)
+}
+
+// Generate response format
+message GenerateResponse {
+  bool result = 1;   // request result
+}
+
+// UseCode request format
+message UseCodeRequest {
+  string code = 1;   // discount code (length = 8)
+}
+
+// UseCode response format
+message UseCodeResponse {
+  int32 result = 1;  // request result code (0=success, 1=already used, 2=not found)
+}
